@@ -1,6 +1,6 @@
 # RapidStruct
 
-RapidStruct is a simple, schema-based binary serialization format.
+RapidStruct is a bare-bones, schema-based binary serialization format.
 It is desinged to be straightforward, fast, and easy to implement.
 
 ## Format
