@@ -13,7 +13,7 @@ A 'RapidStruct' natively supports the following data types:
 - 8-byte unsigned integer (long)
 - 4-byte floating point
 - 8-byte floating point
-- Strings of single-byte characters
+- Strings of single-byte characters (ASCII at a minimum)
 - Raw byte arrays
 - Nested structs
 
