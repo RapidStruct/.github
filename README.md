@@ -42,7 +42,7 @@ You could set the year, month, and day fields, and then have multiple name field
 ## Bytes on the Wire
 All data is represented in network order/big endian.
 When serializing, all fixed-length data types are prepended with their schema-key/tag number, and then their value.
-With variable length fields (strings, raw bytes, and nested structs) the schema-key/tag number comes first, then a 2-byte length, and finally the data.
+With variable length fields (strings, raw bytes, and nested structs) the schema-key/tag number comes first, then a 4-byte length, and finally the data.
 This is about as simple as you can get using the tag-length-value approach.
 Referring to the birthday example again, here is how that data would be serialized to a byte array.
 
@@ -57,19 +57,19 @@ Day, key 2, value 21
 **Byte Representation:** `[2][21]`  
 
 Name, key 3, value "John Smith"  
-**Byte Representation:** `[3][0][10][74][111][104][110][32][83][109][105][116][104]`
+**Byte Representation:** `[3][0][0][0][10][74][111][104][110][32][83][109][105][116][104]`
 
 Combined byte-array below:
 ~~~
    Year     Month    Day                             Name
-[0][7][95]-[1][11]-[2][21]-[3][0][10][74][111][104][110][32][83][109][105][116][104]
-             ASCII Name reference---> [J] [o]  [h]  [n]  [ ] [S] [m]  [i]  [t]  [h]
+[0][7][95]-[1][11]-[2][21]-[3][0][0][0][10][74][111][104][110][32][83][109][105][116][104]
+                   ASCII Name reference---> [J] [o]  [h]  [n]  [ ] [S] [m]  [i]  [t]  [h]
 ~~~
 
 ## Quick Facts
 
 - Because the fields are represented using 1-byte keys, you can have a maximum of 256 fields definitions, but you can have multiple of those fields in one RapidStruct
-- Because the length of fields that a variable in size (strings, raw bytes, nested structs) are represented using a 2-byte integer, the maximum length of a single field is 65535 bytes
+- Because the length of fields that a variable in size (strings, raw bytes, nested structs) are represented using a 4-byte integer, the maximum length of a single field is 0xFFFFFFFF bytes
 - The total length of a RapidStruct is not present in it's serialized form: it is up to you to determine how many bytes to deserialize
 
 Copyright (c) 2026, Noah McLean
